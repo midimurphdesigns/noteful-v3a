@@ -45,7 +45,7 @@ describe('Noteful API - Folders', function () {
           expect(res.body).to.have.length(data.length);
           res.body.forEach(function (item) {
             expect(item).to.be.a('object');
-            expect(item).to.have.keys('name', '_id', '__v');
+            expect(item).to.have.keys('name', 'id');
           });
         });
     });
@@ -66,9 +66,9 @@ describe('Noteful API - Folders', function () {
           expect(res).to.be.json;
 
           expect(res.body).to.be.an('object');
-          expect(res.body).to.have.keys('name', '_id', '__v');
+          expect(res.body).to.have.keys('name', 'id');
 
-          expect(res.body._id).to.equal(data.id);
+          expect(res.body.id).to.equal(data.id);
           expect(res.body.name).to.equal(data.name);
         });
     });
@@ -113,8 +113,8 @@ describe('Noteful API - Folders', function () {
           expect(res).to.have.header('location');
           expect(res).to.be.json;
           expect(res.body).to.be.a('object');
-          expect(res.body).to.have.keys('name', '_id', '__v');
-          return Folder.findById(res.body._id);
+          expect(res.body).to.have.keys('name', 'id');
+          return Folder.findById(res.body.id);
         })
         .then(data => {
           expect(res.body.name).to.equal(data.name);
@@ -158,9 +158,9 @@ describe('Noteful API - Folders', function () {
           expect(res).to.have.status(200);
           expect(res).to.be.json;
           expect(res.body).to.be.a('object');
-          expect(res.body).to.have.keys('name', '_id', '__v');
+          expect(res.body).to.have.keys('name', 'id');
 
-          expect(res.body._id).to.equal(data.id);
+          expect(res.body.id).to.equal(data.id);
           expect(res.body.name).to.equal(updateItem.name);
         });
     });
