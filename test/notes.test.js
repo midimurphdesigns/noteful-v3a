@@ -158,7 +158,7 @@ describe('Noteful API - Notes', function () {
           expect(res.body.content).to.equal(data.content);
         });
     });
-
+ 
     it('should return an error when posting an object with a missing "title" field', function () {
       const newItem = {
         'content': 'Lorem ipsum dolor sit amet, sed do eiusmod tempor...'
