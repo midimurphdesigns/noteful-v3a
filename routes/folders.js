@@ -6,6 +6,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 const Folder = require('../models/folder');
+const Note = require('../models/note');
 
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
@@ -121,8 +122,10 @@ router.put('/:id', (req, res, next) => {
 
 router.delete('/:id', (req, res, next) => {
   const { id } = req.params;
+  const folderRemovePromise = Folder.findByIdAndRemove({ _id: id });
+  const noteRemovePromise = Note.deleteMany({ folderId: id });
 
-  Folder.findByIdAndRemove(id)
+  Promise.all([folderRemovePromise, noteRemovePromise])
     .then(() => {
       res.status(204).end();
     })
