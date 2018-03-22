@@ -7,7 +7,8 @@ const mongoose = require('mongoose');
 const { TEST_MONGODB_URI } = require('../config');
 
 const Folder = require('../models/folder');
-const seedFolder = require('../db/seed/folders');
+const seedFolders = require('../db/seed/folders');
+const seedNotes = require('../db/seed/notes');
 
 const expect = chai.expect;
 
@@ -19,7 +20,7 @@ describe('Noteful API - Folders', function () {
   });
 
   beforeEach(function () {
-    return Folder.insertMany(seedFolder);
+    return Folder.insertMany(seedFolders);
   });
 
   afterEach(function () {
