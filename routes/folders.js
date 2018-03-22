@@ -5,7 +5,7 @@ const router = express.Router();
 
 const mongoose = require('mongoose');
 
-const Note = require('../models/note');
+const Folder = require('../models/folder');
 
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
@@ -18,8 +18,8 @@ router.get('/', (req, res, next) => {
     filter.title = { $regex: re };
   }
 
-  Note.find(filter)
-    .sort('created')
+  Folder.find(filter)
+    .sort('name')
     .then(results => {
       res.json(results);
     })
@@ -27,6 +27,7 @@ router.get('/', (req, res, next) => {
       next(err);
     });
 });
+
 
 /* ========== GET/READ A SINGLE ITEM ========== */
 router.get('/:id', (req, res, next) => {
@@ -38,7 +39,7 @@ router.get('/:id', (req, res, next) => {
     return next(err);
   }
 
-  Note.findById(id)
+  Folder.findById(id)
     .then(result => {
       if (result) {
         res.json(result);
@@ -51,20 +52,20 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
+
 /* ========== POST/CREATE AN ITEM ========== */
 router.post('/', (req, res, next) => {
-  const { title, content } = req.body;
+  const { name } = req.body;
 
-  /***** Never trust users - validate input *****/
-  if (!title) {
+  if (!name) {
     const err = new Error('Missing `title` in request body');
     err.status = 400;
     return next(err);
   }
 
-  const newItem = { title, content };
+  const newItem = { name };
 
-  Note.create(newItem)
+  Folder.create(newItem)
     .then(result => {
       res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
     })
@@ -73,13 +74,13 @@ router.post('/', (req, res, next) => {
     });
 });
 
+
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
 router.put('/:id', (req, res, next) => {
   const { id } = req.params;
-  const { title, content } = req.body;
+  const { name } = req.body;
 
-  /***** Never trust users - validate input *****/
-  if (!title) {
+  if (!name) {
     const err = new Error('Missing `title` in request body');
     err.status = 400;
     return next(err);
@@ -91,10 +92,10 @@ router.put('/:id', (req, res, next) => {
     return next(err);
   }
 
-  const updateItem = { title, content };
+  const updateItem = { name };
   const options = { new: true };
 
-  Note.findByIdAndUpdate(id, updateItem, options)
+  Folder.findByIdAndUpdate(id, updateItem, options)
     .then(result => {
       if (result) {
         res.json(result);
@@ -107,11 +108,13 @@ router.put('/:id', (req, res, next) => {
     });
 });
 
+
 /* ========== DELETE/REMOVE A SINGLE ITEM ========== */
+
 router.delete('/:id', (req, res, next) => {
   const { id } = req.params;
 
-  Note.findByIdAndRemove(id)
+  Folder.findByIdAndRemove(id)
     .then(() => {
       res.status(204).end();
     })
@@ -119,5 +122,6 @@ router.delete('/:id', (req, res, next) => {
       next(err);
     });
 });
+
 
 module.exports = router;
