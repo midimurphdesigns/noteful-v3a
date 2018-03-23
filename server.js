@@ -25,9 +25,10 @@ app.use(express.static('public'));
 app.use(express.json());
 
 // Mount router on "/api"
-app.use('/api/notes', notesRouter);
+
 app.use('/api/folders', foldersRouter);
 app.use('/api/tags', tagsRouter);
+app.use('/api/notes', notesRouter);
 
 // Catch-all 404
 app.use(function (req, res, next) {

@@ -28,7 +28,7 @@ router.get('/', (req, res, next) => {
     .catch(err => {
       next(err);
     });
-})
+});
 
 
 
@@ -123,19 +123,19 @@ router.put('/:id', (req, res, next) => {
 /* ========== DELETE/REMOVE A SINGLE ITEM ========== */
 router.delete('/:id', (req, res, next) => {
   const { id } = req.params;
-  const tagRemovePromise = Tag.findByIdAndRemove({ _id: id });
-  const noteRemovePromise = Note.updateMany(
-    { tagId: id },
-    { '$pull': { 'tagId': id } }
+  const tagRemovePromise = Tag.findByIdAndRemove( id );
+  const noteUpdatePromise = Note.updateMany(
+    { 'tags': id },
+    { '$pull': { 'tags': id } }
   );
 
-  Promise.all([tagRemovePromise, noteRemovePromise])
+  Promise.all([tagRemovePromise, noteUpdatePromise])
   .then(() => {
     res.status(204).end();
   })
   .catch(err => {
     next(err);
-  })
-})
+  });
+});
 
 module.exports = router;
