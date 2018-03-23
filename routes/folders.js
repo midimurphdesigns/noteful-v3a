@@ -10,16 +10,17 @@ const Note = require('../models/note');
 
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
-  const { searchTerm } = req.query;
+  // const { searchTerm } = req.query;
 
-  let filter = {};
+  // let filter = {};
 
-  if (searchTerm) {
-    const re = new RegExp(searchTerm, 'i');
-    filter.title = { $regex: re };
-  }
+  // if (searchTerm) {
+  //   const re = new RegExp(searchTerm, 'i');
+  //   filter.title = { $regex: re };
+  // }
 
-  Folder.find(filter)
+  // Folder.find(filter)
+  Folder.find()
     .sort('name')
     .then(results => {
       res.json(results);
